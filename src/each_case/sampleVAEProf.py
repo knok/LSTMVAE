@@ -25,6 +25,7 @@ class Args():
         else:
             self.gpu = -1
         self.gradclip = 5
+        self.premodel = None
 
 def testSentAdd(args,encdec):
     sent_arr = []
@@ -43,8 +44,9 @@ def testSentAdd(args,encdec):
     testAdd(args,encdec,sent_arr)
 
 
-def sampleTrain():
+def sampleTrain(gpu=-1):
     args = Args(True)
+    args.gpu = gpu
     model_name_base="./{}/model/vae_biconcat_kl_{}_{}_l{}.npz"
     encdec = VAE(args)
     train(args,encdec, model_name_base)
@@ -63,9 +65,11 @@ if __name__=="__main__":
     parser.add_argument("--train",
                         help="train mode",
                         action="store_true")
+    parser.add_argument("--gpu", "-g", type=int, default=-1,
+                        help="specify gpu number")
     args = parser.parse_args()
 
     if args.train:
-        sampleTrain()
+        sampleTrain(args.gpu)
     else:
         sampleTest()
