@@ -71,8 +71,9 @@ class VAE(VAECommon):
         return loss
 
     def decode(self,z,t_vec,t_pred):
-        self.dec.hx = F.reshape(self.ld_h(z),(1,self.batch_size,2*self.out_size))#1,30,100
-        self.dec.cx = F.reshape(self.ld_c(z),(1,self.batch_size,2*self.out_size))
+        bsize = z.shape[0]
+        self.dec.hx = F.reshape(self.ld_h(z),(1,bsize,2*self.out_size))#1,30,100
+        self.dec.cx = F.reshape(self.ld_c(z),(1,bsize,2*self.out_size))
         loss = super().decode(t_vec,t_pred)
         return loss
 
