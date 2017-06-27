@@ -105,13 +105,14 @@ class VAECommon(Chain):
 
     def loadModel(self,model_name_base,args):
         first_e = 0
+        model_name = None
         for e in range(args.epoch):
             model_name_tmp = model_name_base.format(args.dataname, args.dataname, e,args.n_latent)
             if os.path.exists(model_name_tmp):
                 model_name = model_name_tmp
                 self.setEpochNow(e + 1)
 
-        if os.path.exists(model_name):
+        if model_name is not None and os.path.exists(model_name):
             print(model_name)
             # serializers.load_npz(model_name, encdec)
             serializers.load_npz(model_name, self)
@@ -119,7 +120,7 @@ class VAECommon(Chain):
             first_e = self.epoch_now
         else:
             print("loadW2V")
-            if os.path.exists(args.premodel):
+            if args.premodel is not None and os.path.exists(args.premodel):
                 self.loadW(args.premodel)
             else:
                 print("wordvec model doesnt exists.")
