@@ -25,6 +25,7 @@ class Args():
         else:
             self.gpu = -1
         self.gradclip = 5
+        self.premodel = None
 
 def testSentAdd(args,encdec):
     sent_arr = []
